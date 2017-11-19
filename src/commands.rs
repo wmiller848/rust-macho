@@ -1417,7 +1417,7 @@ pub mod tests {
     #[test]
     fn test_parse_min_version_command() {
         if let (LoadCommand::VersionMin { target, version, sdk }, cmdsize) =
-            parse_command!(LC_VERSION_MIN_MACOSX_DATA) {
+               parse_command!(LC_VERSION_MIN_MACOSX_DATA) {
             assert_eq!(cmdsize, 16);
             assert_eq!(target, BuildTarget::MacOsX);
             assert_eq!(version.to_string(), "10.11");
@@ -1465,7 +1465,7 @@ pub mod tests {
     #[test]
     fn test_parse_link_edit_data_command() {
         if let (LoadCommand::FunctionStarts(LinkEditData { off, size }), cmdsize) =
-            parse_command!(LC_FUNCTION_STARTS_DATA) {
+               parse_command!(LC_FUNCTION_STARTS_DATA) {
             assert_eq!(cmdsize, 16);
             assert_eq!(off, 0x1fec50);
             assert_eq!(size, 8504);

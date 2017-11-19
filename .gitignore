@@ -7,3 +7,5 @@ target
 *.64
 
 Cargo.lock
+
+*.swp

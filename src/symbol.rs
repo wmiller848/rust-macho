@@ -1,7 +1,8 @@
-use std::str;
-use std::fmt;
-use std::rc::Rc;
-use std::io::{Cursor, Seek, SeekFrom};
+use core::str;
+use core::fmt;
+use alloc::rc::Rc;
+use nostd_io::{Cursor, Seek, SeekFrom};
+use alloc::Vec;
 
 use byteorder::{ByteOrder, ReadBytesExt, LittleEndian, BigEndian};
 

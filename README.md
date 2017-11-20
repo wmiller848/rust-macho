@@ -18,7 +18,7 @@ mach_object = { git = "https://github.com/flier/rust-macho.git" }
 Use OFile::parse to read the mach-o file from a &[u8] slice.
 
 ```rust
-use std::io::{Read, Cursor};
+use nostd_io::{Read, Cursor};
 use std::fs::File;
 use mach_object::{OFile, CPU_TYPE_X86_64, MachCommand, LoadCommand};
 

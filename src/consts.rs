@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 #![allow(non_camel_case_types)]
 
-use std::collections::HashMap;
+use nostd_collections::HashMap;
 
 pub type cpu_type_t = i32;
 pub type cpu_subtype_t = i32;

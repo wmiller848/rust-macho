@@ -1,10 +1,11 @@
-use std::error;
-use std::fmt;
-use std::io;
-use std::num;
-use std::result;
-use std::str;
-use std::string;
+// use alloc::error;
+use core::fmt;
+use nostd_io;
+use core::num;
+use core::result;
+use core::str;
+use alloc::string;
+use alloc::String;
 
 use uuid;
 use time;
@@ -14,7 +15,7 @@ pub enum Error {
     Utf8Error(str::Utf8Error),
     FromUtf8Error(string::FromUtf8Error),
     UuidParseError(::uuid::ParseError),
-    IoError(io::Error),
+    IoError(nostd_io::Error),
     TimeParseError(time::ParseError),
     ParseIntError(num::ParseIntError),
     ParseOctalError(String),
@@ -36,31 +37,31 @@ impl fmt::Display for Error {
     }
 }
 
-impl error::Error for Error {
-    fn description(&self) -> &str {
-        match *self {
-            Error::Utf8Error(ref err) => err.description(),
-            Error::FromUtf8Error(ref err) => err.description(),
-            Error::UuidParseError(_) => "parse uuid failed",
-            Error::IoError(ref err) => err.description(),
-            Error::TimeParseError(ref err) => err.description(),
-            Error::ParseIntError(ref err) => err.description(),
-            Error::ParseOctalError(_) => "parse octal error",
-            Error::LoadError(_) => "load mach-o file failed",
-        }
-    }
+// impl error::Error for Error {
+// fn description(&self) -> &str {
+// match *self {
+// Error::Utf8Error(ref err) => err.description(),
+// Error::FromUtf8Error(ref err) => err.description(),
+// Error::UuidParseError(_) => "parse uuid failed",
+// Error::IoError(ref err) => err.description(),
+// Error::TimeParseError(ref err) => err.description(),
+// Error::ParseIntError(ref err) => err.description(),
+// Error::ParseOctalError(_) => "parse octal error",
+// Error::LoadError(_) => "load mach-o file failed",
+// }
+// }
 
-    fn cause(&self) -> Option<&error::Error> {
-        match *self {
-            Error::Utf8Error(ref err) => Some(err),
-            Error::FromUtf8Error(ref err) => Some(err),
-            Error::IoError(ref err) => Some(err),
-            Error::TimeParseError(ref err) => Some(err),
-            Error::ParseIntError(ref err) => Some(err),
-            _ => None,
-        }
-    }
-}
+// fn cause(&self) -> Option<&error::Error> {
+// match *self {
+// Error::Utf8Error(ref err) => Some(err),
+// Error::FromUtf8Error(ref err) => Some(err),
+// Error::IoError(ref err) => Some(err),
+// Error::TimeParseError(ref err) => Some(err),
+// Error::ParseIntError(ref err) => Some(err),
+// _ => None,
+// }
+// }
+// }
 
 impl From<str::Utf8Error> for Error {
     fn from(err: str::Utf8Error) -> Self {
@@ -80,8 +81,8 @@ impl From<uuid::ParseError> for Error {
     }
 }
 
-impl From<io::Error> for Error {
-    fn from(err: io::Error) -> Self {
+impl From<nostd_io::Error> for Error {
+    fn from(err: nostd_io::Error) -> Self {
         Error::IoError(err)
     }
 }

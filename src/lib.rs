@@ -3,7 +3,8 @@
 //! # Examples
 //!
 //! ```
-//! use std::io::{Read, Cursor};
+//! extern crate nostd_io;
+//! use nostd_io::{Read, Cursor};
 //! use std::fs::File;
 //! use mach_object::{OFile, CPU_TYPE_X86_64, MachCommand, LoadCommand};
 //!
@@ -29,6 +30,8 @@
 //! For more detail, please check the unit tests
 //! and the [otool](https://github.com/flier/rust-macho/blob/master/examples/otool.rs) example.
 //!
+#![no_std]
+#![feature(alloc)]
 #[macro_use]
 extern crate log;
 extern crate libc;
@@ -39,6 +42,10 @@ extern crate time;
 extern crate bitflags;
 #[macro_use]
 extern crate lazy_static;
+extern crate nostd_io;
+extern crate nostd_collections;
+#[macro_use]
+extern crate alloc;
 
 mod consts;
 mod errors;

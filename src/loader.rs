@@ -1,8 +1,11 @@
 #![allow(non_camel_case_types)]
-use std::fmt;
-use std::convert::From;
-use std::mem::size_of;
-use std::io::{Read, BufRead, Seek, SeekFrom, Cursor, ErrorKind};
+use core::fmt;
+use core::convert::From;
+use core::mem::size_of;
+use alloc::Vec;
+use alloc::String;
+use alloc::string::ToString;
+use nostd_io::{Read, BufRead, Seek, SeekFrom, Cursor, ErrorKind};
 
 use libc;
 use time;
@@ -861,8 +864,10 @@ pub mod tests {
     extern crate env_logger;
     extern crate diff;
 
-    use std::str;
-    use std::io::{Write, Cursor};
+    use core::str;
+    use alloc::Vec;
+    use alloc::String;
+    use nostd_io::{Write, Cursor};
 
     use byteorder::LittleEndian;
 

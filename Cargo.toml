@@ -1,6 +1,6 @@
 [package]
 name = "mach_object"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["Flier Lu <flier.lu@gmail.com>"]
 description = "Mach-O File Format Parser for Rust"
 documentation = "http://flier.github.io/rust-macho/"
@@ -9,13 +9,16 @@ repository = "https://github.com/flier/rust-macho"
 license = "Apache-2.0"
 
 [dependencies]
-log = "0.3"
-libc = "0.2"
-byteorder = "1.0"
+log = { version = "0.3", default-features = false }
+libc = { version = "0.2", default-features = false }
+byteorder = { git = "https://github.com/wmiller848/byteorder.git", default-features = false }
 uuid = "0.5"
-time = "0.1"
+time = { git = "https://github.com/wmiller848/time.git", default-features = false }
 bitflags = "0.9"
-lazy_static = "0.2"
+lazy_static = { version = "0.2", features = ["spin_no_std"] }
+nostd_io = { git = "https://github.com/wmiller848/nostd_io.git" } # the bane of no_std
+nostd_collections = { git = "https://github.com/wmiller848/nostd_collections.git" }
+nostd_error = { git = "https://github.com/wmiller848/nostd_error.git", default-features = false }
 
 [dev-dependencies]
 env_logger = "0.4"

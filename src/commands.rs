@@ -1,7 +1,9 @@
-use std::fmt;
-use std::rc::Rc;
-use std::ffi::CStr;
-use std::io::{Read, BufRead, Cursor};
+use core::fmt;
+use core::str;
+use alloc::rc::Rc;
+use nostd_io::{Read, BufRead, Cursor};
+use alloc::Vec;
+use alloc::String;
 
 use uuid::Uuid;
 use byteorder::{ByteOrder, ReadBytesExt};
@@ -691,7 +693,8 @@ pub trait ReadStringExt: Read {
 
         try!(self.read_exact(buf.as_mut()));
 
-        unsafe { Ok(String::from(try!(CStr::from_ptr(buf.as_ptr() as *const i8).to_str()))) }
+        let len = buf.iter().position(|c| *c == 0x00).unwrap_or(buf.len());
+        unsafe { Ok(String::from(try!(str::from_utf8(&buf[..len])))) }
     }
 }
 
@@ -886,7 +889,8 @@ impl LoadCommand {
 
         try!(buf.read_until(0, &mut s));
 
-        unsafe { Ok(String::from(try!(CStr::from_ptr(s.as_ptr() as *const i8).to_str()))) }
+        let len = s.iter().position(|c| *c == 0x00).unwrap_or(s.len());
+        unsafe { Ok(String::from(try!(str::from_utf8(&s[..len])))) }
     }
 
     fn read_dylinker<O: ByteOrder, T: AsRef<[u8]>>(buf: &mut Cursor<T>) -> Result<LcString> {
@@ -1160,7 +1164,10 @@ pub struct DataInCodeEntry {
 pub mod tests {
     extern crate env_logger;
 
-    use std::io::Cursor;
+    use nostd_io::Cursor;
+    use alloc::Vec;
+    use alloc::String;
+    use alloc::string::ToString;
 
     use byteorder::LittleEndian;
 

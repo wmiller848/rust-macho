@@ -11,7 +11,7 @@ license = "Apache-2.0"
 [dependencies]
 log = { version = "0.3", default-features = false }
 libc = { version = "0.2", default-features = false }
-byteorder = { git = "https://github.com/wmiller848/byteorder.git", default-features = false }
+byteorder = { git = "https://github.com/wmiller848/byteorder.git" }
 uuid = "0.5"
 time = { git = "https://github.com/wmiller848/time.git", default-features = false }
 bitflags = "0.9"

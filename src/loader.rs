@@ -615,7 +615,7 @@ impl ArHeader {
             header.ar_member_name = Some(try!(buf.read_fixed_size_string(size)));
         }
 
-        debug!("{:08x}\tparsed ar header: {:?}", buf.position(), header);
+        // debug!("{:08x}\tparsed ar header: {:?}", buf.position(), header);
 
         Ok(header)
     }
@@ -696,9 +696,9 @@ impl OFile {
 
         try!(buf.seek(SeekFrom::Current(-4)));
 
-        debug!("0x{:08x}\tparsing ofile header with magic: 0x{:x}",
-               buf.position(),
-               magic);
+        // debug!("0x{:08x}\tparsing ofile header with magic: 0x{:x}",
+        // buf.position(),
+        // magic);
 
         match magic {
             MH_MAGIC => Self::parse_mach_file::<Arch32, LittleEndian, T>(buf),
@@ -722,11 +722,11 @@ impl OFile {
     }
 
     fn parse_mach_file<A: MachArch, O: ByteOrder, T: AsRef<[u8]>>(buf: &mut Cursor<T>) -> Result<OFile> {
-        debug!("0x{:08x}\tparsing macho-o file header", buf.position());
+        // debug!("0x{:08x}\tparsing macho-o file header", buf.position());
 
         let header = try!(A::parse_mach_header::<Cursor<T>, O>(buf));
 
-        debug!("parsed mach-o file header: {:?}", header);
+        // debug!("parsed mach-o file header: {:?}", header);
 
         let mut commands = Vec::new();
 
@@ -736,7 +736,7 @@ impl OFile {
             commands.push(MachCommand(cmd, cmdsize));
         }
 
-        debug!("parsed {} load commands", commands.len());
+        // debug!("parsed {} load commands", commands.len());
 
         Ok(OFile::MachFile {
             header: header,
@@ -745,19 +745,19 @@ impl OFile {
     }
 
     fn parse_fat_file<O: ByteOrder, T: AsRef<[u8]>>(buf: &mut Cursor<T>) -> Result<OFile> {
-        debug!("0x{:08x}\tparsing fat file header", buf.position());
+        // debug!("0x{:08x}\tparsing fat file header", buf.position());
 
         let magic = try!(buf.read_u32::<O>());
         let nfat_arch = try!(buf.read_u32::<O>());
 
-        debug!("parsed fat header @ 0x{:08} with {} archs, magic=0x{:x}",
-               buf.position(),
-               nfat_arch,
-               magic);
+        // debug!("parsed fat header @ 0x{:08} with {} archs, magic=0x{:x}",
+        // buf.position(),
+        // nfat_arch,
+        // magic);
 
         let mut archs = Vec::new();
 
-        for i in 0..nfat_arch {
+        for _ in 0..nfat_arch {
             let arch = FatArch {
                 cputype: try!(buf.read_u32::<O>()) as cpu_type_t,
                 cpusubtype: try!(buf.read_u32::<O>()) as cpu_subtype_t,
@@ -766,7 +766,7 @@ impl OFile {
                 align: try!(buf.read_u32::<O>()),
             };
 
-            debug!("fat header arch#{}, arch={:?}", i, arch);
+            // debug!("fat header arch#{}, arch={:?}", i, arch);
 
             archs.push(arch);
         }
@@ -774,9 +774,9 @@ impl OFile {
         let mut files = Vec::new();
 
         for arch in archs {
-            debug!("parsing mach-o file at 0x{:x}, arch={:?}",
-                   arch.offset,
-                   arch);
+            // debug!("parsing mach-o file at 0x{:x}, arch={:?}",
+            // arch.offset,
+            // arch);
 
             let mut cur =
                 Cursor::new(&buf.get_ref().as_ref()[arch.offset as usize..(arch.offset + arch.size) as usize]);
@@ -796,7 +796,7 @@ impl OFile {
         let mut files = Vec::new();
 
         loop {
-            debug!("0x{:08x}\tparsing ar header", buf.position());
+            // debug!("0x{:08x}\tparsing ar header", buf.position());
 
             match ArHeader::parse(buf) {
                 Ok(ref mut header) => {
@@ -818,10 +818,10 @@ impl OFile {
 
                             try!(buf.seek(SeekFrom::Start(end)));
 
-                            debug!("parsed {} with {} ranlibs and {} bytes string",
-                                   member_name,
-                                   ranlibs.len(),
-                                   toc_strsize);
+                            // debug!("parsed {} with {} ranlibs and {} bytes string",
+                            // member_name,
+                            // ranlibs.len(),
+                            // toc_strsize);
 
                             files.push((header.clone(), OFile::SymDef { ranlibs: ranlibs }))
                         } else {
@@ -833,10 +833,10 @@ impl OFile {
 
                             let file = try!(Self::parse(buf));
 
-                            debug!("0x{:08x}\tseek to 0x{:08x}, skip {} bytes",
-                                   buf.position(),
-                                   end,
-                                   end - buf.position());
+                            // debug!("0x{:08x}\tseek to 0x{:08x}, skip {} bytes",
+                            // buf.position(),
+                            // end,
+                            // end - buf.position());
 
                             try!(buf.seek(SeekFrom::Start(end)));
 
@@ -855,7 +855,7 @@ impl OFile {
             }
         }
 
-        debug!("found {} ar header/files", files.len());
+        // debug!("found {} ar header/files", files.len());
 
         Ok(OFile::ArFile { files: files })
     }

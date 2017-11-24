@@ -859,9 +859,9 @@ impl LoadCommand {
 
                 payload.resize(cmdsize as usize - 8, 0);
 
-                debug!("load {} command with {} bytes payload",
-                       LoadCommand::cmd_name(cmd),
-                       payload.len());
+                // debug!("load {} command with {} bytes payload",
+                // LoadCommand::cmd_name(cmd),
+                // payload.len());
 
                 try!(buf.read_exact(payload.as_mut()));
 
@@ -874,7 +874,7 @@ impl LoadCommand {
             }
         };
 
-        debug!("parsed {} command: {:?}", cmd.name(), cmd);
+        // debug!("parsed {} command: {:?}", cmd.name(), cmd);
 
         let read = (buf.position() - begin) as usize;
 

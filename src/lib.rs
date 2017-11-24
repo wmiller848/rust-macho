@@ -37,7 +37,7 @@ extern crate log;
 extern crate libc;
 extern crate byteorder;
 extern crate uuid;
-extern crate time;
+// extern crate time;
 #[macro_use]
 extern crate bitflags;
 #[macro_use]

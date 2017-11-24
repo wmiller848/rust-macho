@@ -8,7 +8,7 @@ use alloc::string::ToString;
 use nostd_io::{Read, BufRead, Seek, SeekFrom, Cursor, ErrorKind};
 
 use libc;
-use time;
+// use time;
 use byteorder::{ReadBytesExt, ByteOrder, BigEndian, LittleEndian, NativeEndian};
 
 use consts::*;
@@ -414,11 +414,13 @@ impl MachCommand {
                             "         name {} (offset {})\n",
                             dylib.name,
                             dylib.name.0));
-                let ts = time::at_utc(time::Timespec::new(dylib.timestamp as i64, 0));
-                try!(write!(f,
-                            "   time stamp {} {}\n",
-                            dylib.timestamp,
-                            try!(time::strftime("%a %b %e %T %Y %Z", &ts).map_err(|_| fmt::Error))));
+                // let ts = time::at_utc(time::Timespec::new(dylib.timestamp as i64, 0));
+                // try!(write!(f,
+                // "   time stamp {} {}\n",
+                // dylib.timestamp,
+                // try!(time::strftime("%a %b %e %T %Y %Z", &ts).map_err(|_| fmt::Error))));
+                try!(write!(f, "   time stamp {}\n", dylib.timestamp));
+
                 try!(write!(f,
                             "      current version {}.{}.{}\n",
                             dylib.current_version.major(),

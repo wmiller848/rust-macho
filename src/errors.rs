@@ -8,7 +8,7 @@ use alloc::string;
 use alloc::String;
 
 use uuid;
-use time;
+// use time;
 
 #[derive(Debug)]
 pub enum Error {
@@ -16,7 +16,7 @@ pub enum Error {
     FromUtf8Error(string::FromUtf8Error),
     UuidParseError(::uuid::ParseError),
     IoError(nostd_io::Error),
-    TimeParseError(time::ParseError),
+    // TimeParseError(time::ParseError),
     ParseIntError(num::ParseIntError),
     ParseOctalError(String),
     LoadError(String),
@@ -29,7 +29,7 @@ impl fmt::Display for Error {
             Error::FromUtf8Error(ref err) => write!(f, "utf-8 error: {}", err),
             Error::UuidParseError(ref err) => write!(f, "uuid parse error: {}", err),
             Error::IoError(ref err) => write!(f, "io error: {}", err),
-            Error::TimeParseError(ref err) => write!(f, "parse time error: {}", err),
+            // Error::TimeParseError(ref err) => write!(f, "parse time error: {}", err),
             Error::ParseIntError(ref err) => write!(f, "parse int error: {}", err),
             Error::ParseOctalError(ref s) => write!(f, "parse octal error: {}", s),
             Error::LoadError(ref reason) => write!(f, "load error: {}", reason),
@@ -87,11 +87,11 @@ impl From<nostd_io::Error> for Error {
     }
 }
 
-impl From<time::ParseError> for Error {
-    fn from(err: time::ParseError) -> Self {
-        Error::TimeParseError(err)
-    }
-}
+// impl From<time::ParseError> for Error {
+// fn from(err: time::ParseError) -> Self {
+// Error::TimeParseError(err)
+// }
+// }
 
 impl From<num::ParseIntError> for Error {
     fn from(err: num::ParseIntError) -> Self {

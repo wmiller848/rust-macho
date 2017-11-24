@@ -13,7 +13,7 @@ log = { version = "0.3", default-features = false }
 libc = { version = "0.2", default-features = false }
 byteorder = { git = "https://github.com/wmiller848/byteorder.git" }
 uuid = "0.5"
-time = { git = "https://github.com/wmiller848/time.git", default-features = false }
+#time = { git = "https://github.com/wmiller848/time.git", default-features = false }
 bitflags = "0.9"
 lazy_static = { version = "0.2", features = ["spin_no_std"] }
 nostd_io = { git = "https://github.com/wmiller848/nostd_io.git" } # the bane of no_std

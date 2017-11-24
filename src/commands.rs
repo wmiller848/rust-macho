@@ -694,7 +694,7 @@ pub trait ReadStringExt: Read {
         try!(self.read_exact(buf.as_mut()));
 
         let len = buf.iter().position(|c| *c == 0x00).unwrap_or(buf.len());
-        unsafe { Ok(String::from(try!(str::from_utf8(&buf[..len])))) }
+        Ok(String::from(try!(str::from_utf8(&buf[..len]))))
     }
 }
 
@@ -890,7 +890,7 @@ impl LoadCommand {
         try!(buf.read_until(0, &mut s));
 
         let len = s.iter().position(|c| *c == 0x00).unwrap_or(s.len());
-        unsafe { Ok(String::from(try!(str::from_utf8(&s[..len])))) }
+        Ok(String::from(try!(str::from_utf8(&s[..len]))))
     }
 
     fn read_dylinker<O: ByteOrder, T: AsRef<[u8]>>(buf: &mut Cursor<T>) -> Result<LcString> {
